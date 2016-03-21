@@ -38,10 +38,15 @@ train=data[[1]]
 test=data[[2]]
 kable(head(outdf))
 hist(outdf$success)
+hist(outdf$handling_time)
+hist(outdf$hyperlink_clicks)
+hist(outdf$magnify_clicks)
+hist(outdf$expert_clicks)
+
 ```
 
 ##First Models
-```{r echo=FALSE}
+```{r results="hide"}
 source('../scripts/models.R')
 ```
 
