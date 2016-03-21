@@ -1,0 +1,102 @@
+---
+title: "Engagement vs. Performance on the MedU Platform"
+subtitle: "Progress Report 2016-03-21"
+author: "Charlie Guthrie"
+date: "March 21, 2016"
+output: html_document
+---
+
+
+##Project Overview
+I'm building a model to predict a student's performance in an online course from his/her level of engagement in the class. The ultimate goal is to determine which engagement activities contribute most to student performance and understanding. I'm using a data set from NYU Langone from MedU, an online learning platform for medical courses.
+
+
+
+##About the Data
+Student performance is measured by score on multiple-choice questions throughout the 23-card unit.  
+See a screenshot of a sample card below.
+
+![Screenshot of sample learning card](../figures/card_screenshot.png)
+
+Variables that may have an impact on student performance:
+
+  * Clicking hyperlinks
+  * Enlarging images
+  * Checking answers
+  * Time spent on cards
+  
+```{r cache=FALSE}
+library(knitr)
+source('../scripts/explore_data.R')
+df = load_data()
+
+source('../scripts/processing.R')
+outdf = restructure(df)
+outdf = rename_cols(outdf,new_names)
+data = train_test_split(outdf)
+train=data[[1]]
+test=data[[2]]
+kable(head(outdf))
+hist(outdf$success)
+```
+
+##First Models
+```{r echo=FALSE}
+source('../scripts/models.R')
+```
+
+###Logistic
+There appears to be a strong relationship between performance and clicks on the magnify button and expert buttons.  But the relationship is less clear with handling time and hyperlink clicks. 
+```{r}
+mylogit <- glm(label ~ hyperlink_clicks + magnify_clicks + expert_clicks + handling_time, data = train, family = "binomial")
+summary(mylogit)
+```
+
+However, the model still needs a lot of work. It does not appear very accurate.
+
+Train Accuracy:
+```{r echo=FALSE}
+train_tab = confusion_matrix(mylogit,train)
+print(train_tab)
+accuracy = get_accuracy(train_tab)
+print(c("accuracy:",accuracy))
+```
+
+Test Accuracy:
+```{r echo=FALSE}
+tab = confusion_matrix(mylogit,test)
+print(tab)
+accuracy = get_accuracy(tab)
+print(c("accuracy:",accuracy))
+```
+
+###Decision Tree
+Next I tried a decision tree, borrowing code from the classification tutorial:
+```{r}
+mydat_tree <- ctree(label ~ hyperlink_clicks + magnify_clicks + expert_clicks + handling_time, data = train)
+plot(mydat_tree)
+```
+
+Train Accuracy:
+```{r echo=FALSE}
+tab = confusion_matrix(mydat_tree,train)
+print(tab)
+accuracy = get_accuracy(tab)
+print(c("accuracy:",accuracy))
+```
+
+Test Accuracy:
+```{r echo=FALSE}
+tab = confusion_matrix(mydat_tree,test)
+print(tab)
+accuracy = get_accuracy(tab)
+print(c("accuracy:",accuracy))
+```
+
+##Next Steps
+There is still a lot of work to do. I will tweak the logistic classifier, trying out different variables and variations on the existing variables.  
+
+The tree classifier shows more promise. 
+
+I also want to visualize the results better
+
