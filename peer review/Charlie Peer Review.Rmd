@@ -1,0 +1,13 @@
+---
+Project: Engagement vs. Performance on the MedU Platform
+Recommendation: Accept 
+Reviewer: Chelsea 
+---
+
+The project overview clearly states the research question of whether student engagement effects performance. The data source and the motivation for the research question are also clear. A useful addition to the project overview would be a brief description of the variables and how they're measured. The histograms begin to get at this, but a clear codebook would be helpful as we consider model selection. It seems like more thought needs to be put into how "success" is measured, given the shape of the histogram and variation in the type of question. 
+
+The first few models are a good starting point, but there is more work to be done in terms of model selection. It seems highly likely that some of these variables are multicollinear, which is effecting the model. Without knowing what variables are available in the dataset, it seems like including a control for "baseline intellegence" (earlier performance etc.) and the difficulty of the question may refine the results and better answer the auxiliary research question concerning the usefullness of the cards. If there is sufficient data, there may be a benefit to examining results question by question. This also might streamline your success variable. 
+
+Overall a good start, clear research question and process, and well organized.
+
+
